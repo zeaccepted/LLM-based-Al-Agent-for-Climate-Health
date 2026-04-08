@@ -1,3 +1,61 @@
 # LLM-based-Al-Agent-for-Climate-Health
 
-The model code and data will be made available soon.
+<img width="970" height="529" alt="image" src="https://github.com/user-attachments/assets/caca8537-94b5-49cb-9ed1-b1b65ef4e517" />
+
+**LLM-based AI multi-agent framework for climate–health literature analysis.**
+**1. Literature search and data sources**
+A systematic literature search was conducted to identify studies examining climate–health relationships in China. Publications were retrieved from both international and Chinese academic databases, including OpenAlex, China National Knowledge Infrastructure (CNKI), and Baidu Scholar. The search covered publications from 1993 to 2023.
+Search queries combined climate-related and health-related keywords in both English and Chinese. Climate-related keywords included terms such as climate change, global warming, extreme weather, heatwave, drought, flood, tropical cyclone, and related expressions. Health-related keywords included health, mortality, morbidity, infectious disease, respiratory disease, cardiovascular disease, mental health, and related outcomes. The full keyword lists are provided in Supplementary Tables S1 and S2.
+Searches were conducted within the title, abstract, and keyword fields. To ensure minimum publication quality, only articles published in journals indexed in SCI, EI, China technology journals, core journals of Peking University, CSCD index journals, CSSCI were included.
+The initial search returned 62,440 publications. After screening and deduplication, 32,642 studies were retained for analysis.
+**2. Study selection criteria**
+Publications were included if they satisfied the following criteria:
+1.The study examined at least one climate or weather-related exposure.
+2.The study reported human health outcomes.
+3.The study analyzed data from mainland China.
+4.The study contained city-level geographic information or could be linked to specific cities through the study design.
+Studies were excluded if they:
+1.Did not involve human health outcomes.
+2.Were purely theoretical or methodological papers without empirical analysis.
+3.Focused exclusively on regions outside China.
+4.Lacked essential bibliographic information such as title or publication year.
+**3. Data preprocessing and deduplication**
+Records retrieved from different databases were merged into a unified dataset. Duplicate publications were removed using fuzzy matching based on article titles, authors, and publication years.
+Metadata fields—including journal names, author information, publication year, and keywords—were standardized across databases. Each record was converted into a structured textual format containing the title, abstract, and keywords, which served as the input for the automated analysis pipeline.
+**4. LLM-based multi-agent literature analysis framework**
+To extract structured information from the literature corpus, we developed a multi-agent large language model (LLM) analysis framework designed to simulate the analytical workflow of climate–health domain experts (Figure5).
+The framework consists of a central coordination module and three specialized analytical agents: document evaluator, information extractor, and analytical reviewer.
+4.1 Document evaluation agent
+The document evaluation agent performs the initial relevance screening of publications. Based on predefined inclusion criteria, the agent evaluates whether a publication contains a meaningful climate–health relationship involving Chinese cities.
+The agent analyzes the title, abstract, and keywords and assigns a binary classification indicating whether the study should proceed to the next stage of analysis.
+4.2 Information extraction agent
+For publications classified as relevant, the information extraction agent extracts structured study information. Extracted variables include:
+study location (city or cities)
+climate exposure variables
+health outcome variables
+population characteristics
+study design
+reported statistical associations
+Extraction was performed using prompt-guided structured extraction, in which the model was instructed to extract only information explicitly reported in the source text.
+4.3 Analytical review agent
+The analytical review agent evaluates the extracted information and organizes it into a structured dataset describing relationships between climate factors, health outcomes, and study locations. This agent also performs consistency checks across extracted variables and integrates information from multiple studies.
+The resulting structured dataset forms the basis for subsequent quantitative analyses.
+**5. Hallucination control and validation procedures**
+Several strategies were implemented to reduce hallucination and ensure extraction reliability.
+First, the LLM was restricted to extractive tasks, meaning that the model was instructed to extract only information explicitly present in the original text and not generate new information.
+Second, cross-agent consistency checks were implemented. Outputs generated by the information extraction agent were evaluated by the analytical review agent to ensure consistency between extracted variables.
+Third, each extracted variable was assigned a confidence score reflecting the model’s internal certainty.
+Fourth, a human validation procedure was conducted. A sample of 2,000 publications was randomly selected and independently annotated by domain experts. The extracted results produced by the LLM system were compared with the human annotations to evaluate extraction accuracy.
+**6. Knowledge database construction and research metrics**
+The extracted information was stored in a dual-layer knowledge database.
+The structured database records study characteristics including climate exposures, health outcomes, geographic locations, and methodological information. This dataset was used for statistical analyses of research distribution and thematic patterns.
+A semantic vector database was also constructed using text embeddings of the publications, enabling semantic retrieval and knowledge graph construction.
+Based on the structured dataset, several indicators were constructed:
+Research exposure, defined as the number of article–city linkages identified in the literature. A study covering multiple cities contributes one exposure per city.
+Research intensity, defined as the number of research exposures per city within each category (e.g., region or administrative level).
+These indicators were used to characterize the spatial distribution and thematic structure of climate–health research.
+**7. Statistical analysis and reproducibility**
+Statistical analyses were conducted to examine the spatial distribution of research exposure, thematic patterns of climate–health studies, and the alignment between climate-related risks and research attention.
+All statistical analyses were conducted using Python (version 3.9).
+Model performance was evaluated using precision, recall, and F1 score, where the F1 score represents the harmonic mean of precision and recall. F1 score can accurately and comprehensively reflect the accuracy and completeness of the model. Using the manually annotated validation dataset, the system achieved an F1 score of 0.92 for key information extraction tasks.
+The LLM framework was implemented based on DeepSeek-R1/ChatGPT-O1/ERNIE Bot model architecture. Prompts, extraction templates, and validation procedures are provided in Supplementary Methods, and the extracted dataset and analysis code are available at https://github.com/zeaccepted/LLM-based-Al-Agent-for-Climate-Health.
