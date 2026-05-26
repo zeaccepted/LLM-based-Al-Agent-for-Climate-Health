@@ -1,6 +1,6 @@
 # LLM-based AI multi-agent framework for climate–health literature analysis
 
-This repository contains the code used for "Climate–health risks outpace research attention in Chinese cities"
+This repository contains the code used for "Automated Analysis Framework for Multilingual Climate-Health Literature Based on Multi-Agent Large Language Model"
 
 
 ## 📖 Introduction
